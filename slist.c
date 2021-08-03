@@ -1,4 +1,5 @@
 // slist.c
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "slist.h"
@@ -45,20 +46,8 @@ int sl_back(struct slnode * head)
     }
 }
 
-struct slnode * sl_begin(struct slnode ** head)
+struct slnode * sl_begin(struct slnode * head)
 {
-    return *head;
-}
-
-struct slnode * sl_cbegin(struct slnode * head)
-{
-    return head;
-}
-
-struct slnode * sl_cend(struct slnode * head)
-{
-    while (head->next != NULL)
-        head = head->next;
     return head;
 }
 
@@ -74,6 +63,111 @@ void sl_clear(struct slnode ** head)
     }
     *head = NULL;
 }
+
+bool sl_empty(struct slnode * head)
+{
+    if (sl_size(head) == 0)
+        return true;
+    else
+        return false;
+}
+
+struct slnode * sl_end(struct slnode * head)
+{
+    while (head != NULL)
+        head = head->next;
+    return head;
+}
+
+void sl_erase_position(struct slnode ** head, int position)
+{
+    if (*head == NULL)
+    {
+        fprintf(stderr, "Error. List is empty. No elements can be deleted at the given position.\n");
+        exit(EXIT_FAILURE);
+    }
+    else
+    {
+        struct slnode * walker = *head;
+        if (position == 0)
+        {
+            *head = walker->next;
+            free(walker);
+            return;
+        }
+        else
+        {
+            for (int i = 0; walker != NULL && i < (position - 1); i++)
+                walker = walker->next;
+            if (walker == NULL || walker->next == NULL)
+            {
+                fprintf(stderr, "Error. Position can't exceed the number of elements.\n");
+                exit(EXIT_FAILURE);
+            }
+            else
+            {
+                struct slnode * next = walker->next->next;
+                free(walker->next);
+                walker->next = next;
+            }
+        }
+    }
+}
+
+void sl_erase_range(struct slnode ** head, int first, int last)
+{
+    int size = sl_size(*head);
+    if (first > last)
+    {
+        fprintf(stderr, "Error. The first number in range can't be larger than the last.\n");
+        exit(EXIT_FAILURE);
+    }
+    else if (first > size || last > size)
+    {
+        fprintf(stderr, "Error. Range can't exceed the number of elements.\n");
+        exit(EXIT_FAILURE);
+    }
+    else if (first == last)
+    {
+        return;
+    }
+    else //if (first < last)
+    {
+        int count = 0;
+        int diff = (last - first) - 1;
+        struct slnode * walker = *head;
+        while (count < first - 1)
+        {
+            count++;
+            walker = walker->next;
+        }
+        count = 0;
+        if (first != 0)
+        {
+            struct slnode * next = NULL;
+            while (count <= diff)
+            {
+                count++;
+                next = walker->next->next;
+                free(walker->next);
+                walker->next = next;
+            }
+            return;
+        }
+        else 
+        {   
+            while (count <= diff)
+            {
+                count++;
+                *head = walker->next;
+                free(walker);
+                walker = *head;
+            }
+            return;
+        }
+    }
+}
+
 
 void sl_push_back(struct slnode ** head, int key)
 {

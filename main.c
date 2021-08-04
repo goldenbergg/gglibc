@@ -9,6 +9,9 @@ void sl_empty_test(void);
 void sl_end_test(void);
 void sl_erase_position_test(void);
 void sl_erase_range_test(void);
+void sl_front_test(void);
+void sl_insert_single_test(void);
+void sl_insert_fill_test(void);
 void sl_push_back_test(void);
 void sl_push_front_test(void);
 void sl_size_test(void);
@@ -24,6 +27,9 @@ int main()
     sl_end_test();
     sl_erase_position_test();
     sl_erase_range_test();
+    sl_front_test();
+    sl_insert_single_test();
+    sl_insert_fill_test();
     sl_push_back_test();
     sl_push_front_test();
     sl_size_test();
@@ -125,6 +131,38 @@ void sl_erase_range_test(void)
     sl_push_front(&head, 2);
     sl_push_front(&head, 1);
     sl_erase_range(&head, 1, 6);
+    sl_print(head);
+    sl_clear(&head);
+}
+
+void sl_front_test(void)
+{
+    printf("sl_front_test: ");
+    struct slnode * head = NULL;
+    sl_push_front(&head, 1);
+    sl_push_front(&head, 2);
+    sl_push_front(&head, 3);
+    printf("%d\n", sl_front(head));
+    sl_clear(&head);
+}
+
+void sl_insert_single_test(void)
+{
+    printf("sl_insert_single_test: ");
+    struct slnode * head = NULL;
+    sl_push_front(&head, 1);
+    sl_push_front(&head, 2);
+    sl_push_front(&head, 3);
+    sl_insert_single(&head, 1, 1);
+    sl_print(head);
+    sl_clear(&head);
+}
+
+void sl_insert_fill_test(void)
+{
+    printf("sl_insert_fill_test: ");
+    struct slnode * head= NULL;
+    sl_insert_fill(&head, 0, 4, 21);
     sl_print(head);
     sl_clear(&head);
 }

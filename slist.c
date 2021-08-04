@@ -131,7 +131,7 @@ void sl_erase_range(struct slnode ** head, int first, int last)
     {
         return;
     }
-    else //if (first < last)
+    else
     {
         int count = 0;
         int diff = (last - first) - 1;
@@ -168,6 +168,69 @@ void sl_erase_range(struct slnode ** head, int first, int last)
     }
 }
 
+int sl_front(struct slnode * head)
+{
+    if (head == NULL)
+    {
+        fprintf(stderr, "Error. List is empty. Front can't be checked.\n");
+        exit(EXIT_FAILURE);
+    }
+    else 
+    {
+        return head->key;
+    }
+}
+
+void sl_insert_single(struct slnode ** head, int position, int val)
+{
+    if (*head == NULL && position != 0)
+    {
+        fprintf(stderr, "Error. List is empty and insert position is not 0.\n");
+        exit(EXIT_FAILURE);
+    }
+    else if (position == 0)
+    {
+        sl_push_front(head, val);
+        return;
+    }
+    else
+    {
+        struct slnode * walker = *head;
+        for (int i = 0; walker != NULL && i < (position - 1); i++)
+            walker = walker->next;
+        if (walker == NULL)
+        {
+            fprintf(stderr, "Error. Position can't exceed the number of elements.\n");
+            exit(EXIT_FAILURE);
+        }
+        else
+        {
+            struct slnode * temp = sl_new_node(val);
+            temp->next = walker->next;
+            walker->next = temp;
+            return;
+        }
+    }
+}
+
+void sl_insert_fill(struct slnode ** head, int position, int n, int val)
+{
+    if (*head == NULL && position != 0)
+    {
+        fprintf(stderr, "Error. List is empty and insert position is not 0.\n");
+        exit(EXIT_FAILURE);
+    }
+    else if (position == 0)
+    {
+        int count = 0;
+        while (count < n)
+        {
+            count++;
+            sl_push_front(head, val);
+        }
+        return;
+    }   
+}
 
 void sl_push_back(struct slnode ** head, int key)
 {

@@ -3,7 +3,7 @@ WARNING = -Wall -Wshadow --pedantic
 ERROR = -Wvla -Werror
 GCC = gcc -std=c99 -O3 $(WARNING) $(ERROR)
 
-SRCS = main.c slist.c
+SRCS = main.c bstree.c slist.c 
 LIBS = 
 OBJS = $(SRCS:%.c=%.o)
 
@@ -17,4 +17,3 @@ all: $(TARGET)
 	./gglibc_test
 clean:
 	rm -f $(OBJS) $(TARGET)
-	

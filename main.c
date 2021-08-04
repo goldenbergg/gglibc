@@ -1,5 +1,8 @@
 #include <stdio.h>
+#include "bstree.h"
 #include "slist.h"
+
+void bst_insert_test(void);
 
 void sl_assign_fill_test(void);
 void sl_back_test(void);
@@ -19,6 +22,15 @@ void sl_print(struct slnode * head);
 
 int main()
 {
+    // Binary search tree tests
+    printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n");
+    printf("Binary Search Tree Tests\n");
+    bst_insert_test();
+    printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n\n");
+
+    // Singly-linked list tests
+    printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n");
+    printf("Singly-Linked List Tests\n");
     sl_assign_fill_test();
     sl_back_test();
     sl_begin_test();
@@ -33,7 +45,25 @@ int main()
     sl_push_back_test();
     sl_push_front_test();
     sl_size_test();
+    printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n");
     return 0;
+}
+
+void bst_insert_test(void)
+{
+    printf("bst_insert_test: ");
+    struct bstnode * root = NULL;
+    root = bst_insert(root, 44);
+    bst_insert(root, 41);
+    bst_insert(root, 91);
+    bst_insert(root, 34);
+    bst_insert(root, 72);
+    bst_insert(root, 67);
+    bst_inorder(root);
+    bst_postorder(root);
+    bst_preorder(root);
+    bst_clear(&root);
+    return;
 }
 
 void sl_assign_fill_test(void)

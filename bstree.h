@@ -7,6 +7,7 @@ struct bstnode
 	struct bstnode * right;
 };
 
+void bst_assign(struct bstnode ** root, int * keys, int size);
 void bst_clear(struct bstnode ** root);
 void bst_clear_util(struct bstnode * root);
 struct bstnode * bst_new_node(int key);

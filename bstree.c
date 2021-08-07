@@ -3,6 +3,13 @@
 #include <stdlib.h>
 #include "bstree.h"
 
+void bst_assign(struct bstnode ** root, int * keys, int size)
+{
+	*root = bst_insert(*root, keys[0]);
+	for (int i = 1; i < size; i++)
+		bst_insert(*root, keys[i]);
+}
+
 void bst_clear(struct bstnode ** root)
 {
 	bst_clear_util(*root);

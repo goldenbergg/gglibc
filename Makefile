@@ -14,6 +14,6 @@ $(TARGET): $(OBJS)
 	$(GCC) -c $*.c
 
 all: $(TARGET)
-	./gglibc_test
+	./gglibc_test > out.txt
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -f $(OBJS) $(TARGET) out.txt

@@ -22,3 +22,7 @@ void sl_insert_fill(struct slnode ** head, int position, int n, int val);
 void sl_push_back(struct slnode ** head, int key);
 void sl_push_front(struct slnode ** head, int key);
 int sl_size(struct slnode * head);
+void sl_sort(struct slnode ** head);
+struct slnode * sl_sort_partition(struct slnode * head, struct slnode * end, struct slnode ** new_head, struct slnode ** new_end);
+struct slnode * sl_sort_rec(struct slnode * head, struct slnode * end);
+struct slnode * sl_tail(struct slnode * head);

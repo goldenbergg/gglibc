@@ -1,3 +1,4 @@
+
 // slist.c
 #include <stdbool.h>
 #include <stdio.h>
@@ -267,4 +268,70 @@ int sl_size(struct slnode * head)
         head = head->next;
     }
     return count;
+}
+
+void sl_sort(struct slnode ** head)
+{
+    *head = sl_sort_rec(*head, sl_tail(*head));
+    return;
+}
+
+struct slnode * sl_sort_partition(struct slnode * head, struct slnode * end, struct slnode ** new_head, struct slnode ** new_end)
+{
+    struct slnode * pivot = end;
+    struct slnode * prev = NULL;
+    struct slnode * curr = head;
+    struct slnode * tail = pivot;
+    while (curr != pivot)
+    {
+        if (curr->key < pivot->key)
+        {
+            if (*new_head == NULL)
+                *new_head = curr;
+            prev = curr;
+            curr = curr->next;
+        }
+        else
+        {
+            if (prev != NULL)
+                prev->next = curr->next;
+            struct slnode * temp = curr->next;
+            curr->next = NULL;
+            tail->next = curr;
+            tail = curr;
+            curr = temp;
+        }
+    }
+    if (*new_head == NULL)
+        *new_head = pivot;
+    *new_end = tail;
+    return pivot;
+}
+
+struct slnode * sl_sort_rec(struct slnode * head, struct slnode * end)
+{
+    if (head == NULL || head == end)
+        return head;
+    struct slnode * new_head = NULL;
+    struct slnode * new_end = NULL;
+    struct slnode * pivot = sl_sort_partition(head, end, &new_head, &new_end);
+    if (new_head != pivot)
+    {
+        struct slnode * temp = new_head;
+        while (temp->next != pivot)
+            temp = temp->next;
+        temp->next = NULL;
+        new_head = sl_sort_rec(new_head, temp);
+        temp = sl_tail(new_head);
+        temp->next = pivot;
+    }
+    pivot->next = sl_sort_rec(pivot->next, new_end);
+    return new_head;
+}
+
+struct slnode * sl_tail(struct slnode * head)
+{
+    while (head != NULL && head->next != NULL)
+        head = head->next;
+    return head;
 }
